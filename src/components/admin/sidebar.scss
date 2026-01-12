@@ -1,0 +1,357 @@
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+
+  &.open {
+    width: 260px;
+  }
+
+  &.closed {
+    width: 64px;
+
+    .logo-text,
+    .menu-label,
+    .logout-btn span {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    .menu-item,
+    .logout-btn {
+      justify-content: center;
+      padding: 10px;
+    }
+
+    .logo {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 768px) {
+    &.closed {
+      transform: translateX(-100%);
+    }
+
+    &.open {
+      width: 280px;
+    }
+  }
+}
+
+.sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid #f3f4f6;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s;
+  width: 100%;
+
+  .logo-icon,
+  .logo-icon-only {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .logo-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    white-space: nowrap;
+    transition: all 0.3s;
+  }
+}
+
+.sidebar-menu {
+  flex: 1;
+  padding: 16px 8px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #e5e7eb;
+    border-radius: 3px;
+
+    &:hover {
+      background: #d1d5db;
+    }
+  }
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  margin-bottom: 2px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+  color: #6b7280;
+  font-size: 14px;
+  min-height: 40px;
+
+  &:hover {
+    background: #f9fafb;
+    color: #1f2937;
+
+    .tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
+  }
+
+  &.active {
+    background: #f3f4f6;
+    color: #1f2937;
+    font-weight: 500;
+
+    .menu-icon svg {
+      color: #1f2937;
+    }
+  }
+
+  .menu-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+
+    svg {
+      transition: color 0.15s;
+    }
+  }
+
+  .menu-label {
+    font-weight: 400;
+    white-space: nowrap;
+    transition: all 0.3s;
+    flex: 1;
+  }
+
+  .tooltip {
+    position: absolute;
+    left: 68px;
+    background: #1f2937;
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s;
+    pointer-events: none;
+    z-index: 1001;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateX(-8px);
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: -4px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 4px solid transparent;
+      border-bottom: 4px solid transparent;
+      border-right: 4px solid #1f2937;
+    }
+  }
+}
+
+.sidebar-footer {
+  padding: 12px 8px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  color: #6b7280;
+  position: relative;
+  font-size: 14px;
+  min-height: 40px;
+
+  &:hover {
+    background: #fef2f2;
+    color: #dc2626;
+
+    .tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
+
+    svg {
+      color: #dc2626;
+    }
+  }
+
+  svg {
+    flex-shrink: 0;
+    transition: color 0.15s;
+  }
+
+  span {
+    font-weight: 400;
+    white-space: nowrap;
+    transition: all 0.3s;
+  }
+
+  .tooltip {
+    position: absolute;
+    left: 68px;
+    background: #1f2937;
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s;
+    pointer-events: none;
+    z-index: 1001;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateX(-8px);
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: -4px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 4px solid transparent;
+      border-bottom: 4px solid transparent;
+      border-right: 4px solid #1f2937;
+    }
+  }
+}
+
+.sidebar-toggle {
+  position: fixed;
+  left: 260px;
+  top: 20px;
+  width: 32px;
+  height: 32px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  z-index: 1001;
+  color: #6b7280;
+
+  &:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+    color: #1f2937;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  @media (max-width: 768px) {
+    left: 16px;
+    top: 16px;
+  }
+}
+
+.sidebar.closed + .sidebar-toggle {
+  left: 64px;
+
+  @media (max-width: 768px) {
+    left: 16px;
+  }
+}
+
+// Clean minimalist style
+.sidebar {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Helvetica", "Arial", sans-serif;
+}
+
+// Smooth interactions
+.menu-item,
+.logout-btn {
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+// Focus states for accessibility
+.menu-item,
+.logout-btn,
+.sidebar-toggle {
+  &:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+}
+
+// Mobile responsive
+@media (max-width: 768px) {
+  .sidebar {
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar-toggle {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}

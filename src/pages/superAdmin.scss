@@ -1,0 +1,19 @@
+.superadmin-root {
+  display: flex;
+  min-height: 100vh;
+  background: #0f172a;
+}
+
+.superadmin-main {
+  flex: 1;
+  margin-left: 260px;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.sidebar-closed {
+    margin-left: 64px;
+  }
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+  }
+}

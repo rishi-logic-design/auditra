@@ -1,0 +1,138 @@
+.admin-root {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #fbfdff, #f7f9fc);
+}
+
+.sidebar {
+  width: 260px;
+  background: #fff;
+  border-right: 1px solid #e6e9ef;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar .brand h3 {
+  margin: 0;
+  color: #2b6cb0;
+  font-size: 20px;
+}
+
+.sidebar .nav {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-top: 24px;
+}
+
+.sidebar .nav-item {
+  padding: 12px 14px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  color: #374151;
+  transition: background 0.2s;
+}
+
+.sidebar .nav-item.active {
+  background: #2b6cb0;
+  color: #fff;
+}
+
+.sidebar .logout-btn {
+  margin-top: auto;
+  padding: 12px 14px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: #ef4444;
+  cursor: pointer;
+  font-size: 15px;
+  text-align: left;
+}
+
+.sidebar .logout-btn:hover {
+  background: #fef2f2;
+}
+
+.sidebar-footer {
+  margin-top: 20px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.admin-main {
+  flex: 1;
+  padding: 32px;
+}
+
+.dashboard-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.dashboard-page .page-header h2 {
+  margin: 0;
+  font-size: 28px;
+  color: #0f172a;
+}
+
+.dashboard-page .page-header .welcome {
+  color: #6b7280;
+}
+
+.dashboard-page .cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.dashboard-page .card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+}
+
+.dashboard-page .card .card-label {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.dashboard-page .card .card-value {
+  font-size: 32px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.dashboard-page .section {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+}
+
+.dashboard-page .section h3 {
+  margin-top: 0;
+  color: #0f172a;
+}
+
+.dashboard-page .section p {
+  color: #6b7280;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .admin-main {
+    padding: 16px;
+  }
+}
