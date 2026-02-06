@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./SuperDashboard.scss";
+import "./superDashboard.scss";
 import vendorService from "../../services/vendorService";
 import customerService from "../../services/customerService";
 import subscriptionService from "../../services/subscriptionService";
