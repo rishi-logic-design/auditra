@@ -1,9 +1,9 @@
-import api from './api';
+import api from "./api";
 
 const customerService = {
   getAllCustomers: async (params = {}) => {
     try {
-      const response = await api.get('/api/customers', { params });
+      const response = await api.get("/api/customers", { params });
       return response.data;
     } catch (error) {
       throw error.response?.data || error;
@@ -13,7 +13,7 @@ const customerService = {
   getCustomerById: async (id, vendorId) => {
     try {
       const response = await api.get(`/api/customers/${id}`, {
-        params: { vendorId }
+        params: { vendorId },
       });
       return response.data;
     } catch (error) {
@@ -23,7 +23,7 @@ const customerService = {
 
   createCustomer: async (customerData) => {
     try {
-      const response = await api.post('/api/customers', customerData);
+      const response = await api.post("/api/customers", customerData);
       return response.data;
     } catch (error) {
       throw error.response?.data || error;
@@ -42,7 +42,7 @@ const customerService = {
   deleteCustomer: async (id, vendorId) => {
     try {
       const response = await api.delete(`/api/customers/${id}`, {
-        params: { vendorId }
+        params: { vendorId },
       });
       return response.data;
     } catch (error) {
@@ -50,9 +50,12 @@ const customerService = {
     }
   },
 
-  getCustomerCountByVendor: async () => {
+  // Fixed: Now accepts vendorId parameter
+  getCustomerCountByVendor: async (vendorId) => {
     try {
-      const response = await api.get('/api/customers/count-by-vendor');
+      const response = await api.get("/api/customers/count-by-vendor", {
+        params: { vendorId },
+      });
       return response.data;
     } catch (error) {
       throw error.response?.data || error;
@@ -62,11 +65,11 @@ const customerService = {
   uploadCustomerImage: async (file) => {
     try {
       const formData = new FormData();
-      formData.append('image', file);
-      
-      const response = await api.post('/api/upload/customer-image', formData, {
+      formData.append("image", file);
+
+      const response = await api.post("/api/upload/customer-image", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       });
       return response.data;

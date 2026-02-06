@@ -82,7 +82,7 @@ const SubscriptionManagement = () => {
 
   const fetchVendors = async () => {
     try {
-      const response = await vendorService.getVendors({ size: 100 });
+      const response = await vendorService.getAllVendors({ size: 100 });
       if (response.success) {
         setVendors(response.data.rows);
       }

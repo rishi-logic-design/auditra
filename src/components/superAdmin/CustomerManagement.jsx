@@ -29,7 +29,7 @@ const CustomerManagement = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await vendorService.getVendors({
+      const response = await vendorService.getAllVendors({
         page: 1,
         size: 100,
       });
@@ -37,9 +37,10 @@ const CustomerManagement = () => {
       if (response.success) {
         const vendorList = response.data.rows || [];
         setVendors(vendorList);
-        
-        await fetchCustomerCounts();
-        
+
+        // Fetch customer counts for each vendor
+        await fetchCustomerCountsForAllVendors(vendorList);
+
         if (vendorList.length > 0 && !selectedVendorId) {
           setSelectedVendorId(vendorList[0].id);
         }
@@ -51,15 +52,20 @@ const CustomerManagement = () => {
       setLoading(false);
     }
   };
-
-  const fetchCustomerCounts = async () => {
+  const fetchCustomerCountsForAllVendors = async () => {
     try {
       const response = await customerService.getCustomerCountByVendor();
-      if (response.success) {
+
+      console.log("COUNT API RESPONSE 👉", response);
+
+      if (response.success && Array.isArray(response.data)) {
         const counts = {};
-        response.data.forEach(item => {
-          counts[item.createdBy] = parseInt(item.customerCount);
+        response.data.forEach((item) => {
+          console.log("COUNT ITEM 👉", item);
+          counts[item.vendorId] = Number(item.customerCount);
         });
+
+        console.log("FINAL COUNTS MAP 👉", counts);
         setVendorCustomerCounts(counts);
       }
     } catch (err) {
@@ -73,7 +79,7 @@ const CustomerManagement = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await customerService.getCustomers({
+      const response = await customerService.getAllCustomers({
         vendorId: selectedVendorId,
         search: searchQuery,
         page: 1,
@@ -109,6 +115,53 @@ const CustomerManagement = () => {
       month: "short",
       day: "numeric",
     });
+  };
+
+  const parseAddress = (address) => {
+    if (!address) return "N/A";
+
+    // If address is already a string, return it
+    if (typeof address === "string") {
+      // Check if it's a JSON string
+      try {
+        const parsed = JSON.parse(address);
+        return formatAddressObject(parsed);
+      } catch {
+        // Not JSON, return as is
+        return address;
+      }
+    }
+
+    // If address is an object
+    if (typeof address === "object") {
+      return formatAddressObject(address);
+    }
+
+    return "N/A";
+  };
+
+  const formatAddressObject = (addressObj) => {
+    if (!addressObj) return "N/A";
+
+    const parts = [];
+
+    if (addressObj.street) parts.push(addressObj.street);
+    if (addressObj.area) parts.push(addressObj.area);
+    if (addressObj.city) parts.push(addressObj.city);
+    if (addressObj.state) parts.push(addressObj.state);
+    if (addressObj.pincode) parts.push(addressObj.pincode);
+    if (addressObj.country) parts.push(addressObj.country);
+
+    // If no structured fields, try common field names
+    if (parts.length === 0) {
+      if (addressObj.line1) parts.push(addressObj.line1);
+      if (addressObj.line2) parts.push(addressObj.line2);
+      if (addressObj.locality) parts.push(addressObj.locality);
+      if (addressObj.district) parts.push(addressObj.district);
+      if (addressObj.zip) parts.push(addressObj.zip);
+    }
+
+    return parts.length > 0 ? parts.join(", ") : "N/A";
   };
 
   const getSelectedVendorName = () => {
@@ -196,8 +249,8 @@ const CustomerManagement = () => {
                       <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
                       <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                     </svg>
-                    <span>
-                      {vendorCustomerCounts[vendor.id] || 0} Customers
+                    <span className="customer-count">
+                      ({vendorCustomerCounts[vendor.id] ?? 0} customers)
                     </span>
                   </div>
                 </div>
@@ -243,9 +296,7 @@ const CustomerManagement = () => {
                         key={customer.id}
                         onClick={() => handleRowClick(customer)}
                         className={
-                          selectedCustomer?.id === customer.id
-                            ? "selected"
-                            : ""
+                          selectedCustomer?.id === customer.id ? "selected" : ""
                         }
                       >
                         <td>{customer.customerName}</td>
@@ -314,7 +365,7 @@ const CustomerManagement = () => {
                   <div className="detail-row">
                     <span className="detail-label">Home Address</span>
                     <span className="detail-value">
-                      {selectedCustomer.homeAddress}
+                      {parseAddress(selectedCustomer.homeAddress)}
                     </span>
                   </div>
                 )}
@@ -323,7 +374,7 @@ const CustomerManagement = () => {
                   <div className="detail-row">
                     <span className="detail-label">Office Address</span>
                     <span className="detail-value">
-                      {selectedCustomer.officeAddress}
+                      {parseAddress(selectedCustomer.officeAddress)}
                     </span>
                   </div>
                 )}

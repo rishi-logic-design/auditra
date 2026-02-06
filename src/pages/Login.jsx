@@ -35,7 +35,7 @@ const Login = () => {
             callback: () => {
               console.log("reCAPTCHA solved");
             },
-          }
+          },
         );
       } catch (error) {
         console.error("reCAPTCHA error:", error);
@@ -92,7 +92,7 @@ const Login = () => {
       const confirmation = await signInWithPhoneNumber(
         auth,
         phoneNumber,
-        appVerifier
+        appVerifier,
       );
       setConfirmationResult(confirmation);
       setStep("enterOtp");
@@ -136,7 +136,7 @@ const Login = () => {
         {
           mobile: mobile,
           firebaseUid: firebaseUser.uid,
-        }
+        },
       );
 
       if (response.data.success) {
@@ -163,7 +163,7 @@ const Login = () => {
     } catch (error) {
       console.error("Error verifying OTP:", error);
       setMessage(
-        error.response?.data?.message || "Invalid OTP. Please try again."
+        error.response?.data?.message || "Invalid OTP. Please try again.",
       );
       setOtp(["", "", "", "", "", ""]);
     } finally {

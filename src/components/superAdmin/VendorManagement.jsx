@@ -33,7 +33,7 @@ const VendorManagement = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await vendorService.getVendors({
+      const response = await vendorService.getAllVendors({
         search,
         page: 1,
         size: 50,
@@ -150,19 +150,24 @@ const VendorManagement = () => {
         const newVendor = vendorResponse.data;
 
         try {
-          const subscriptionResponse = await subscriptionService.assignSubscription({
-            vendorId: newVendor.id,
-            planId: parseInt(formData.planId),
-          });
+          const subscriptionResponse =
+            await subscriptionService.assignSubscription({
+              vendorId: newVendor.id,
+              planId: parseInt(formData.planId),
+            });
 
           if (subscriptionResponse.success) {
             showSuccess("Vendor and subscription added successfully!");
           } else {
-            showSuccess("Vendor added but subscription assignment failed. Please assign manually.");
+            showSuccess(
+              "Vendor added but subscription assignment failed. Please assign manually."
+            );
           }
         } catch (subErr) {
           console.error("Subscription assignment error:", subErr);
-          showSuccess("Vendor added but subscription assignment failed. Please assign manually.");
+          showSuccess(
+            "Vendor added but subscription assignment failed. Please assign manually."
+          );
         }
 
         clearForm();
@@ -561,23 +566,27 @@ const VendorManagement = () => {
                     className="plan-select"
                   >
                     <option value="">
-                      {plans.length === 0 ? "No plans available" : "Select Subscription Plan"}
+                      {plans.length === 0
+                        ? "No plans available"
+                        : "Select Subscription Plan"}
                     </option>
                     {plans.map((plan) => (
                       <option key={plan.id} value={plan.id}>
-                        {plan.name} - ₹{plan.price} ({plan.duration} {plan.durationUnit}{plan.duration > 1 ? 's' : ''})
+                        {plan.name} - ₹{plan.price} ({plan.duration}{" "}
+                        {plan.durationUnit}
+                        {plan.duration > 1 ? "s" : ""})
                       </option>
                     ))}
                   </select>
-                  <span className="form-hint">
+                  {/* <span className="form-hint">
                     Subscription will be automatically assigned to the vendor
-                  </span>
+                  </span> */}
                 </div>
               )}
 
-              <button 
-                type="button" 
-                className="submit-btn" 
+              <button
+                type="button"
+                className="submit-btn"
                 disabled={loading}
                 onClick={isEditing ? handleUpdateVendor : handleAddVendor}
               >
